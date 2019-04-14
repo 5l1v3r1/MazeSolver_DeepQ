@@ -10,10 +10,10 @@
 //#include <windows.h>
 
 // AI
-#include "AI/DeepNetwork.h"
-#include "AI/DeepQLearning.h"
+#include "DeepNetwork.h"
+#include "DeepQLearning.h"
 
-#define POCET_KROKOV							  (40)
+#define POCET_KROKOV						      (40)
 #define POCET_ITERACII						 (1000000)
 
 using namespace AI;
