@@ -13,7 +13,7 @@
 #include <iostream>
 #include <math.h>
 
-#include "../AI/DeepNetwork.h"
+#include "DeepNetwork.h"
 
 namespace AI
 {
