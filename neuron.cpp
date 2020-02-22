@@ -25,8 +25,8 @@ namespace AI
 		
 		_neuron->out = 0.0f;
 		_neuron->sigma = 0.0f;
-		_neuron->alpha = 0.1f;
-		_neuron->momentum = 0.1f;
+		_neuron->alpha = 0.001f;
+		_neuron->momentum = 0.9f;
 		_neuron->num_of_next_neurons = 0;
 		_neuron->num_of_prev_neurons = 0;
 		_neuron->prev_neurons = NULL;

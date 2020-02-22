@@ -51,7 +51,6 @@ using namespace std;
 	int main(int argc, char** argv)
 	{
 		Player robot;
-		bool done;
 		FILE *f_tab, *f_err;
 		float error_avg;
 
@@ -59,7 +58,7 @@ using namespace std;
 		f_err = fopen("err.txt", "w");
 
 		//  AI
-		DeepQNetwork* _ai = create_Qnetwork(3, new int[3]{ 7, 16, 4 }); 
+		DeepQNetwork* _ai = create_Qnetwork(3, new int[3]{ 7, 32, 4 }); 
 		int penalties = 0, pom;
 
 		// init random
@@ -94,7 +93,7 @@ using namespace std;
 		for (int time = 0, step; time <= POCET_ITERACII; time++)
 		{
 			// nove kolo hry
-			done = false;
+			_ai->done = false;
 			penalties = 0;
 			error_avg = 0;
 
@@ -134,15 +133,15 @@ using namespace std;
 				if (Environment[pom] == (int)Objects::Nothing) {
 					penalties++;  
 					_ai->reward = -1.0f; 
-					done = true; 
+					_ai->done = true; 
 				}
 				else if (Environment[pom] == (int)Objects::End) { 
 					_ai->reward = +1.0f; 
-					done = true; 
+					_ai->done = true;
 				}
 				else {
 					_ai->reward = -0.01f; 
-					done = false;
+					_ai->done = false;
 				}
 				
 				training_Qnetwork(_ai);
@@ -171,7 +170,7 @@ using namespace std;
 				for (int i = 0; i < 7; i++)
 					_ai->state[i] = _ai->newState[i];
 
-				if (done != 0) break;
+				if (_ai->done != 0) break;
 			}
 
 			// error avg
@@ -193,7 +192,7 @@ using namespace std;
 		for (int time = 0; time < 5; time++)
 		{
 			// nove kolo hry
-			done = false;
+			_ai->done = false;
 
 			// zaciatocna poloha
 			robot.positionX = 2;
@@ -244,8 +243,8 @@ using namespace std;
 
 				// ziskaj reward
 				if (Environment[pom] == (int)Objects::Nothing) { penalties++;  /*done = true;*/ }
-				else if (Environment[pom] == (int)Objects::End) { done = true; }									
-			} while (!done);
+				else if (Environment[pom] == (int)Objects::End) { _ai->done = true; }									
+			} while (!_ai->done);
 		}
 
 		std::cout << "Penalties for 5 games = " << penalties << std::endl;

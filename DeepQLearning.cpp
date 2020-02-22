@@ -12,8 +12,8 @@ namespace AI
 		_net->newState = new float[_num_of_neurons[0]];
 		_net->reward = 0;
 		_net->action = 0;
-		_net->epsilon = 0.20f; // 0.15
-		_net->gamma = 0.9f;
+		_net->epsilon = 0.15f;
+		_net->gamma = 0.95f;
 
 		return _net;
 	}
@@ -50,7 +50,12 @@ namespace AI
 		for (int i = 0; i < _net->netQ->num_of_neurons[_net->netQ->num_of_layers-1]; i++)
 		{
 			if (i == _net->action)
-				qTarget[i] = (_net->reward + _net->gamma * newQVal);
+			{
+				if (!_net->done)
+					qTarget[i] = (_net->reward + _net->gamma * newQVal);
+				else
+					qTarget[i] = _net->reward;
+			}
 			else
 				qTarget[i] = 0.0f;
 		}
@@ -60,6 +65,6 @@ namespace AI
 		for (int i = 0; i < _net->netQ->num_of_layers; i++)
 			for (int j = 0; j < _net->netQ->num_of_neurons[i]; j++)
 				for (int k = 0; k < _net->netQ->net[i][j]->N+1; k++)
-					_net->netQTarget->net[i][j]->Weights[k] = _net->netQ->net[i][j]->Weights[k];	
+					_net->netQTarget->net[i][j]->Weights[k] = (0.01f)*_net->netQ->net[i][j]->Weights[k] + (1.0f-0.01f)*_net->netQTarget->net[i][j]->Weights[k];	
 	}
 }

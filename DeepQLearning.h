@@ -24,6 +24,7 @@ namespace AI
 		DeepNetwork* netQTarget;
 		float *state, *newState;
 		float reward;
+		bool done;
 		int action;
 		float epsilon;
 		float gamma;
